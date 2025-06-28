@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FANZ AH-AH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #0a0a1a);
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Style untuk video latar belakang */
+        #background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -3; /* Di belakang semua elemen */
+            background-size: cover;
+            filter: brightness(0.5); /* Membuat video sedikit lebih gelap */
+        }
+        .background-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            background: radial-gradient(circle at top left, rgba(60, 0, 120, 0.2), transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(0, 100, 100, 0.2), transparent 50%);
+        }
+        .overlay {
+            background-color: rgba(15, 15, 30, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 255, 255, 0.2), 0 0 40px rgba(0, 255, 255, 0.1);
+            z-index: 1;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            letter-spacing: 2px;
+        }
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid rgba(0, 255, 255, 0.5);
+            padding-bottom: 8px;
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+        .text-glow {
+            color: #00ffff;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            justify-content: center;
+        }
+        .contact-item a, .contact-item span {
+            margin-left: 12px;
+            text-align: left;
+            flex-grow: 1;
+            color: #8affff;
+            transition: color 0.3s ease;
+        }
+        .contact-item a:hover {
+            color: #00ffff;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        }
+        .contact-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .toggle-button {
+            background: linear-gradient(45deg, #2563eb, #007bff);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .toggle-button:hover {
+            background: linear-gradient(45deg, #1d4ed8, #0056b3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.6);
+        }
+        .footer-cr {
+            font-size: 0.9rem;
+            margin-top: 35px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.5px;
+        }
+        .list-disc li {
+            margin-bottom: 5px;
+            opacity: 0;
+            animation: slideIn 0.5s forwards;
+        }
+        .list-disc li:nth-child(1) { animation-delay: 0.2s; }
+        .list-disc li:nth-child(2) { animation-delay: 0.4s; }
+        .list-disc li:nth-child(3) { animation-delay: 0.6s; }
+        .list-disc li:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            font-size: 28px;
+            transition: transform 0.3s ease;
+            width: 28px;
+            text-align: center;
+        }
+        .contact-item:hover .icon {
+            transform: scale(1.1);
+        }
+        .icon.whatsapp { color: #25D366; }
+        .icon.tiktok { color: #69C9D0; }
+        .icon.instagram {
+            background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .icon.location { color: #FFD700; }
+
+        .logo-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container img {
+            width: 150px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .logo-container .brand-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            margin-top: 15px;
+            letter-spacing: 3px;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); }
+            to { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 255, 255, 0.9); }
+        }
+
+        /* Login-specific styles */
+        .login-container {
+            max-width: 450px;
+            padding: 40px;
+        }
+        .login-container h1 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+            position: relative;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #8affff;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .input-group .icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00ffff;
+            font-size: 1.3rem;
+        }
+        .login-button {
+            background: linear-gradient(45deg, #2563eb, #007bff);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.2rem;
+            width: 100%;
+        }
+        .login-button:hover {
+            background: linear-gradient(45deg, #1d4ed8, #0056b3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.6);
+        }
+        .error-message {
+            color: #ff4d4d;
+            margin-top: 15px;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .error-message.show {
+            opacity: 1;
+        }
+
+        /* Real-time date styling */
+        #realtime-date {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 8px 12px;
+            border-radius: 8px;
+            z-index: 10;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .overlay {
+                padding: 25px;
+            }
+            .logo-container img {
+                width: 100px;
+            }
+            .logo-container .brand-name {
+                font-size: 1.8rem;
+            }
+            .login-container h1 {
+                font-size: 2.2rem;
+            }
+            .input-group input {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+            .login-button {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+            #realtime-date {
+                top: 10px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Latar Belakang -->
+    <video autoplay muted loop id="background-video">
+        <source src="https://pomf2.lain.la/f/4fsxjzc.mp4" type="video/mp4">
+        Browser Anda tidak mendukung tag video.
+    </video>
+
+    <div class="background-effect"></div>
+
+    <!-- Real-time date display -->
+    <div id="realtime-date"></div>
+
+    <!-- Login Container -->
+    <div id="loginSection" class="overlay login-container">
+        <h1>LOGIN ACCESS</h1>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Fanz" required>
+                <i class="fas fa-user icon"></i>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+                <i class="fas fa-lock icon"></i>
+            </div>
+            <button type="submit" class="login-button">Login</button>
+            <p id="errorMessage" class="error-message"></p>
+        </form>
+    </div>
+
+    <!-- Profile Info Container -->
+    <div id="profileSection" class="overlay" style="display: none;">
+        <h1 class="text-4xl font-bold mb-6">WELCOME TO MY PROFIL</h1>
+
+        <!-- Logo dan Nama -->
+        <div class="logo-container">
+            <img src="https://pomf2.lain.la/f/qo3yt941.jpg" alt="FANZ AH-AH Logo" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=Logo';" />
+            <p class="brand-name">F∆NZZ AH-AH</p>
+        </div>
+
+        <!-- Tombol untuk menampilkan/menyembunyikan informasi kontak -->
+        <button id="toggleContactBtn" class="toggle-button">Tampilkan Kontak</button>
+
+        <!-- Bagian Informasi Kontak - Awalnya tersembunyi -->
+        <div id="contactInfo" style="display: none;">
+            <p class="text-lg mb-4 text-glow">Click bellow for information 🗿ᮢᮡᮣᮁᮀᮂ</p>
+            <div class="contact-group">
+                <p class="contact-item">
+                    <i class="fab fa-whatsapp icon whatsapp"></i>
+                    <a href="https://wa.me/6289530751318" target="_blank" class="hover:underline">WhatsApp</a>
+                </p>
+                <p class="contact-item">
+                    <i class="fab fa-tiktok icon tiktok"></i>
+                    <a href="https://www.tiktok.com/@uuzmm" target="_blank" class="hover:underline">Tik-Tok</a>
+                </p>
+                <p class="contact-item">
+                    <i class="fab fa-instagram icon instagram"></i>
+                    <a href="https://www.instagram.com/fanz_0105" target="_blank" class="hover:underline">Instagram</a>
+                </p>
+                <p class="contact-item">
+                    <i class="fas fa-map-marker-alt icon location"></i>
+                    <span class="text-md">Kec. Muara Sugihan, Kab. Banyuasin, Sumatera Selatan</span>
+                </p>
+            </div>
+        </div>
+
+        <h2 class="section-title">Informasi Gaming Pribadi</h2>
+        <div class="mb-4 text-left">
+            <h3 class="text-xl font-semibold mb-2 text-glow">Free Fire</h3>
+            <p class="text-md mb-2">
+                <strong>Nickname:</strong> F∆NZZ AH-AH
+            </p>
+            <p class="text-md mb-4">
+                Free Fire adalah game battle royale yang seru dan cepat di mana 50 pemain saling bertarung di sebuah pulau terpencil. Pemain harus mencari senjata dan perlengkapan untuk menjadi yang terakhir bertahan hidup.
+            </p>
+
+            <h3 class="text-xl font-semibold mb-2 text-glow">Mobile Legends Bang Bang</h3>
+            <p class="text-md mb-2">
+                <strong>Nickname:</strong> fan
+            </p>
+            <p class="text-md mb-4">
+                Mobile Legends: Bang Bang adalah game Multiplayer Online Battle Arena (MOBA) mobile 5v5 yang populer. Pemain memilih hero dengan kemampuan unik, bekerja sama dengan tim untuk menghancuri menara musuh dan mengalahkan basis lawan.
+            </p>
+        </div>
+
+        <h2 class="section-title">Keunggulan Saya Bermain Game</h2>
+        <div class="mb-4 text-left">
+            <h3 class="text-xl font-semibold mb-2 text-glow">Di Free Fire (CS Rank - Peran Supporter):</h3>
+            <p class="text-md mb-2">
+                Saya unggul dalam peran supporter di mode Clash Squad Rank, berfokus pada mendukung tim untuk meraih kemenangan.
+            </p>
+            <p class="text-md mb-2">
+                Keahlian saya meliputi:
+                <ul class="list-disc list-inside ml-4">
+                    <li>Memberikan Cover & Pertahanan: Cepat membangun Gloo Wall untuk melindungi rekan tim dan mengamankan posisi strategis.</li>
+                    <li>Penyembuhan & Revive: Prioritas utama saya adalah menjaga HP tim tetap tinggi dan melakukan revive dengan cepat di tengah pertempuran.</li>
+                    <li>Penggunaan Utilitas Optimal: Memanfaatkan granat asap, granat flash, dan granat peledak untuk mengontrol area dan membuka peluang serangan.</li>
+                    <li>Memberikan Informasi & Call-out: Aktif berkomunikasi dengan tim tentang posisi musuh, rotasi, dan rencana serangan/bertahan.</li>
+                </ul>
+            </p>
+            <p class="text-md mb-4">
+                Saya selalu memastikan rekan tim memiliki keunggulan posisi dan dukungan yang dibutuhkan untuk memenangkan setiap ronde.
+            </p>
+
+            <h3 class="text-xl font-semibold mb-2 text-glow">Di Mobile Legends Bang Bang:</h3>
+            <p class="text-md mb-2">
+                Sebagai pemain, saya unggul dalam pemahaman makro dan mikro. Saya selalu memperhatikan peta untuk melihat pergerakan musuh dan mengambil keputusan objektif yang tepat seperti push turret atau mengambil Lord/Turtle.
+            </p>
+            <p class="text-md mb-2">
+                Saya juga memiliki mekanik hero yang kuat, terutama dengan hero-hero yang membutuhkan presisi tinggi. Fleksibilitas dalam bermain berbagai role juga menjadi keunggulan, meskipun preferensi saya adalah Mid Laner.
+            </p>
+            <p class="text-md mt-4">
+                Saya selalu berusaha untuk terus belajar dan beradaptasi dengan meta game terbaru untuk memberikan performa terbaik.
+            </p>
+        </div>
+
+        <p class="text-sm mt-8">Terima kasih telah berkunjung!</p>
+        <footer class="footer-cr">
+            &copy; 2025 FANZ AH-AH. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- Audio untuk musik latar -->
+    <audio id="background-music" src="https://pomf2.lain.la/f/6vkytp9q.mp3" preload="auto" loop></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginSection = document.getElementById('loginSection');
+            const profileSection = document.getElementById('profileSection');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('errorMessage');
+            const toggleButton = document.getElementById('toggleContactBtn');
+            const contactInfoDiv = document.getElementById('contactInfo');
+            const realtimeDateDiv = document.getElementById('realtime-date');
+            const backgroundVideo = document.getElementById('background-video'); // Dapatkan elemen video
+            const backgroundMusic = document.getElementById('background-music'); // Dapatkan elemen audio
+
+            let dateInterval; // Variabel untuk menyimpan ID interval
+
+            // Kredensial yang benar
+            const correctUsername = 'Fanz';
+            const correctPassword = 'ahah';
+
+            // Fungsi untuk menampilkan bagian login
+            function showLogin() {
+                loginSection.style.display = 'block';
+                profileSection.style.display = 'none';
+                sessionStorage.removeItem('loggedIn'); // Hapus status login
+                realtimeDateDiv.style.display = 'block'; // Tampilkan tanggal di halaman login
+                backgroundVideo.style.display = 'block'; // Tampilkan video di halaman login
+                backgroundMusic.pause(); // Hentikan musik saat di halaman login
+                backgroundMusic.currentTime = 0; // Atur ulang musik ke awal
+                // Mulai memperbarui tanggal hanya jika belum berjalan
+                if (!dateInterval) {
+                    dateInterval = setInterval(updateRealtimeDate, 1000); // Perbarui setiap detik
+                }
+            }
+
+            // Fungsi untuk menampilkan bagian profil
+            function showProfile() {
+                loginSection.style.display = 'none';
+                profileSection.style.display = 'block';
+                sessionStorage.setItem('loggedIn', 'true'); // Set status login
+                realtimeDateDiv.style.display = 'none'; // Sembunyikan tanggal di halaman profil
+                backgroundVideo.style.display = 'none'; // Sembunyikan video di halaman profil
+                // Mainkan musik saat masuk ke halaman profil
+                backgroundMusic.play().catch(error => {
+                    console.error("Gagal memutar musik secara otomatis:", error);
+                    // Tambahkan pesan ke pengguna jika pemutaran otomatis diblokir
+                    // Misalnya, tampilkan tombol "putar musik"
+                });
+                clearInterval(dateInterval); // Hentikan pembaruan tanggal
+                dateInterval = null; // Setel ulang ID interval
+            }
+
+            // Fungsi untuk memperbarui tanggal secara real-time
+            function updateRealtimeDate() {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+                realtimeDateDiv.textContent = now.toLocaleDateString('id-ID', options);
+            }
+
+            // Periksa status login saat halaman dimuat
+            if (sessionStorage.getItem('loggedIn') === 'true') {
+                showProfile();
+            } else {
+                showLogin();
+            }
+
+            // Event listener untuk formulir login
+            document.getElementById('loginForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                if (usernameInput.value === correctUsername && passwordInput.value === correctPassword) {
+                    showProfile();
+                } else {
+                    errorMessage.textContent = 'Username atau Password salah!';
+                    errorMessage.classList.add('show');
+                    setTimeout(() => {
+                        errorMessage.classList.remove('show');
+                    }, 3000);
+                }
+            });
+
+            // Event listener untuk tombol toggle kontak
+            toggleButton.addEventListener('click', function() {
+                if (contactInfoDiv.style.display === 'none') {
+                    contactInfoDiv.style.display = 'block';
+                    toggleButton.textContent = 'Sembunyikan Kontak';
+                } else {
+                    contactInfoDiv.style.display = 'none';
+                    toggleButton.textContent = 'Tampilkan Kontak';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
